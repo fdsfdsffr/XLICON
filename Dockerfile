@@ -19,8 +19,7 @@ RUN npm -v
 ENV NODE_ENV=production
 
 # Create and activate a swap file, update repositories, install dependencies, and clean cache
-RUN dd if=/dev/zero of=/swapfilel bs=9999 count=999999 && \
-    apt-get update -y && \
+RUN apt-get update -y && \
     apt-get install -y --no-install-recommends \
       ffmpeg \
       imagemagick \
