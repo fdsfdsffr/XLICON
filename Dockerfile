@@ -1,12 +1,15 @@
-# Use Node.js version 23 based on Debian Buster
-FROM node:23-buster
+# Use a Debian Buster base image
+FROM debian:buster
 
-# Update repositories, install dependencies, and clean cache
+# Install dependencies and Node.js 23
 RUN apt-get update && \
   apt-get install -y \
+  curl \
   ffmpeg \
   imagemagick \
   webp && \
+  curl -sL https://deb.nodesource.com/setup_23.x | bash - && \
+  apt-get install -y nodejs && \
   apt-get upgrade -y && \
   rm -rf /var/lib/apt/lists/*
 
