@@ -1,9 +1,3 @@
-# NOTE:
-# Docker is not a Node.js package manager.
-# Please ensure Docker is already installed on your system.
-# Follow official instructions at https://docs.docker.com/desktop/
-# Official Node.js Docker images: https://github.com/nodejs/docker-node
-
 # Pull Node.js v22-alpine (lightweight version of Node.js)
 FROM node:22-alpine
 
@@ -18,21 +12,20 @@ RUN npm -v
 # Set environment to production
 ENV NODE_ENV=production
 
-# Create and activate a swap file, update repositories, install dependencies, and clean cache
-RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends \
+# Install dependencies using apk (Alpine package manager)
+RUN apk update && \
+    apk add --no-cache \
       ffmpeg \
       imagemagick \
       webp && \
-    apt-get upgrade -y && \
-    rm -rf /var/lib/apt/lists/*
+    apk upgrade
 
 # Set the working directory
 WORKDIR /app
 
 # Copy package.json and package-lock.json for dependency installation
-COPY package.json ./
-COPY package-lock.json* ./
+COPY package.json ./ 
+COPY package-lock.json* ./ 
 
 # Install Node.js dependencies
 RUN npm install --production
